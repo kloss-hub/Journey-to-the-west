@@ -10,6 +10,8 @@
 #include "point.h"
 #include "tangseng.h"
 #include "marquee.h"
+#include"monkey_king.h"
+#include"pigsy.h"
 namespace Ui {
 class MainWindow;
 }
@@ -23,11 +25,12 @@ public:
 private slots:
      void InitEvil();//产生怪物
      void drawagin();//重画
+     void InitBullet();//产生子弹
 private:
     Ui::MainWindow *ui;
     int size;              //界面大小
     int blocksize;         //块大小
-    int evil_init_speed=1000;          //怪物产生速度/ms
+    int evil_init_speed=3000;          //怪物产生速度/ms
     bool inselect=false;     //是否在选择
     bool needselect;
     Marquee *M;
@@ -39,7 +42,6 @@ private:
     void DrawMapArr(QPainter&);//画地图函数
     void Drawlife(QPainter&,int x,int y);
     int hurt(Evil *);//  判断怪物是否伤害到唐僧
-    int Evil_dead(Evil *E);//判断妖怪是否死亡
     void DrawEudemon(QPainter&);
     void DrawEvil(QPainter&);//画出怪物
     int money=100; //金币

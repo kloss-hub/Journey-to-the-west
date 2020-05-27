@@ -6,6 +6,9 @@ Evil::Evil(int h,int r,QString i,QVector<Point *> p,int s):Object (p.at(0)->GetX
     Path=p;
     speed=s;
 }
+void Evil::BeHurt(int h){
+    health-=h;
+}
 void Evil::move()
 {
     Point *p1=nullptr;

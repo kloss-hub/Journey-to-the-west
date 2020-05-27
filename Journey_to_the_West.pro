@@ -32,7 +32,9 @@ SOURCES += \
     point.cpp \
     eudemon.cpp \
     object.cpp \
-    marquee.cpp
+    marquee.cpp \
+    monke_king.cpp \
+    pigsy.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +43,10 @@ HEADERS += \
     tangseng.h \
     point.h \
     marquee.h \
-    object.h
+    object.h \
+    bullet.h \
+    monkey_king.h \
+    pigsy.h
 
 FORMS += \
         mainwindow.ui
