@@ -68,17 +68,21 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
     if(inselect){
         int bx=M->GetX()/blocksize;
         int by=M->GetY()/blocksize;//选择框对应的块坐标
-        if(x==bx&&y==by-1){
-            if(money>=50){
-                money-=50;
-                Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*3/4));//类型兼容
-            }
+        if(x==bx&&y==by-1&&money>=50){
+            money-=50;
+            Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*3/4));//类型兼容
         }
-        if(x==bx+1&&by==y){
-            if(money>=40){
-                money-=40;
-                Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*3/4));//类型兼容
-            }
+        if(x==bx+1&&by==y&&money>=40){
+            money-=40;
+            Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*3/4));//类型兼容
+        }
+        if(x==bx&&y==by+1&&money>=30){
+            money-=30;
+            Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*3/4));
+        }
+        if(x==bx-1&&y==by&&money>=20){
+            money-=20;
+            Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*3/4));
         }
 
         inselect=false;//选择完毕

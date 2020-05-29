@@ -27,7 +27,6 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    tangseng.cpp \
     evil.cpp \
     point.cpp \
     eudemon.cpp \
@@ -41,7 +40,6 @@ HEADERS += \
         mainwindow.h \
     evil.h \
     eudemon.h \
-    tangseng.h \
     point.h \
     marquee.h \
     object.h \

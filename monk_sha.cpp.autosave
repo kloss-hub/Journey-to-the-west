@@ -20,7 +20,7 @@ void MonkSha::Attack(QPainter &painter){
 //            //打到怪物
 //        }
         painter.save();
-        painter.setPen(QPen(Qt::yellow,4,Qt::SolidLine));
+        painter.setPen(QPen(Qt::yellow,2,Qt::SolidLine));
         for(int i=0;i<count;i++){
             painter.drawEllipse(QPoint(x+20,y+30),to_evilx*(i+1),to_evily*(i+1));
         }

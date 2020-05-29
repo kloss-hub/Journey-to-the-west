@@ -8,10 +8,10 @@
 #include "evil.h"       //妖怪类
 #include "eudemon.h"    //守护者类
 #include "point.h"
-#include "tangseng.h"
 #include "marquee.h"
 #include"monkey_king.h"
 #include"pigsy.h"
+#include"monk_sha.h"
 namespace Ui {
 class MainWindow;
 }

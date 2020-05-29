@@ -9,6 +9,6 @@ public:
     virtual void Attack(QPainter& painter);   //画出子弹并攻击
     ~MonkSha();
 private:
-    int count;//当前光圈的数量
+    int count=0;//当前光圈的数量
 };
 #endif // MONK_SHA_H
