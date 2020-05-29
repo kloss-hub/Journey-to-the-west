@@ -25,5 +25,8 @@
         <file>images/money.PNG</file>
         <file>images/marquee.PNG</file>
         <file>images/bullet1.PNG</file>
+        <file>images/pig1.png</file>
+        <file>images/pig2.png</file>
+        <file>images/bullet2.png</file>
     </qresource>
 </RCC>

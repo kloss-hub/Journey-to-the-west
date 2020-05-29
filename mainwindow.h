@@ -30,7 +30,7 @@ private:
     Ui::MainWindow *ui;
     int size;              //界面大小
     int blocksize;         //块大小
-    int evil_init_speed=3000;          //怪物产生速度/ms
+    int evil_init_speed=2000;          //怪物产生速度/ms
     bool inselect=false;     //是否在选择
     bool needselect;
     Marquee *M;
@@ -44,7 +44,7 @@ private:
     int hurt(Evil *);//  判断怪物是否伤害到唐僧
     void DrawEudemon(QPainter&);
     void DrawEvil(QPainter&);//画出怪物
-    int money=100; //金币
+    int money=200; //金币
     int evil_count=0;//妖怪数量
     int life=100;  //唐僧的剩余生命
 };

@@ -26,6 +26,10 @@ QString Object::GetImg() const
 {
     return img;
 }
+void Object::Changeimag(QString i)
+{
+    img=i;
+}
 void Object::draw(QPainter &painter,int w,int h)
 {
     painter.drawPixmap(x,y,w,h,QPixmap(img));

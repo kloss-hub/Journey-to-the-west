@@ -34,7 +34,8 @@ SOURCES += \
     object.cpp \
     marquee.cpp \
     monke_king.cpp \
-    pigsy.cpp
+    pigsy.cpp \
+    monk_sha.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -46,7 +47,8 @@ HEADERS += \
     object.h \
     bullet.h \
     monkey_king.h \
-    pigsy.h
+    pigsy.h \
+    monk_sha.h
 
 FORMS += \
         mainwindow.ui

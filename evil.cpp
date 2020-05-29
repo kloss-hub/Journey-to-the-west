@@ -9,8 +9,18 @@ Evil::Evil(int h,int r,QString i,QVector<Point *> p,int s):Object (p.at(0)->GetX
 void Evil::BeHurt(int h){
     health-=h;
 }
+void Evil::GetSlow(){
+//    speed=speed/2;
+    slowdown=true;
+}
 void Evil::move()
 {
+    int sp=speed;
+    if(slowdown)
+        sp=speed/2;
+    else {
+        sp=speed;
+    }
     Point *p1=nullptr;
     Point *p2=nullptr;
     for(int i=0;i<Path.size()-1;i++){
@@ -22,16 +32,16 @@ void Evil::move()
     }
     //往下一个端点走
     if(x>p2->GetX()){
-        x-=speed;
+        x-=sp;
     }
     if(x<p2->GetX()){
-        x+=speed;
+        x+=sp;
     }
     if(y>p2->GetY()){
-        y-=speed;
+        y-=sp;
     }
     if(y<p2->GetY()){
-        y+=speed;
+        y+=sp;
     }
 }
 int Evil::GetHurt() const

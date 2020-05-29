@@ -26,8 +26,10 @@ void Eudemon::MoveBullet(){
 void Eudemon::Upgrade(){
     if(level<3){
         size+=10;
-        power+=3;
+        power+=5;
         range+=20;
         level+=1;
+        bulletnum-=1;
+        BulletQ.clear();
     }
 }            //升级,上限为3

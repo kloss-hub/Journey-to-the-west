@@ -3,6 +3,7 @@
 #include <QString>
 #include "evil.h"
 #include "object.h"
+#include "bullet.h"
 class Eudemon: public Object
 {
 public:
@@ -15,7 +16,7 @@ public:
     void Upgrade();            //升级
     int GetSize();//返回大小
     int GetUpgradeCost();//返回升级需要花费的金钱
-//    virtual void Addbuttle()=0;//添加子弹
+    virtual void Addbuttle()=0;//添加子弹
     virtual void Attack(QPainter& painter)=0;   //画出子弹并攻击
     virtual ~Eudemon(){}//析构函数也需要是虚函数
 protected:
@@ -25,6 +26,8 @@ protected:
     Evil* target_evil=nullptr;//攻击的目标妖怪
     int power;//攻击威力
     int upgradecost;//升级花费
+    int bulletnum;//需要打到怪兽的子弹数，升级了可以减少
+    QVector<Bullet *> BulletQ;//子弹队列
 };
 
 #endif // EUDEMON_H

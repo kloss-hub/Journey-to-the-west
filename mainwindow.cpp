@@ -22,7 +22,7 @@ MainWindow::MainWindow(int s,QWidget *parent) :
     timer->start(evil_init_speed);
     connect(timer,SIGNAL(timeout()),this,SLOT(InitEvil()));//创造怪物
     QTimer *timer1 = new QTimer(this);
-    timer1->start(1000);
+    timer1->start(100);
     connect(timer1,SIGNAL(timeout()),this,SLOT(InitBullet()));//造子弹
 
 }
@@ -193,11 +193,13 @@ void MainWindow::InitEvil(){
         evil_count+=1;
     }
     else{}
+//    update();
 }
 void MainWindow::InitBullet(){
-//    for(int i=0;i<Eudemonvec.size();i++){
-//        Eudemonvec.at(i)->Addbuttle();
-//    }
+    for(int i=0;i<Eudemonvec.size();i++){
+        Eudemonvec.at(i)->Addbuttle();
+    }
+//    update();
 }//添加子弹
 
 
@@ -208,7 +210,8 @@ void MainWindow::drawagin(){
 void MainWindow::DrawEudemon(QPainter& painter){//画守护者并确定目标怪物
     for(int i=0;i<Eudemonvec.size();i++){
         Eudemonvec.at(i)->draw(painter,Eudemonvec.at(i)->GetSize(), Eudemonvec.at(i)->GetSize());
-        for(int j=0;j<Evilvec.size();j++){
+        int j=0;
+        for(;j<Evilvec.size();j++){
             int x=Evilvec.at(j)->GetX()-Eudemonvec.at(i)->GetX();
             int y=Evilvec.at(j)->GetY()-Eudemonvec.at(i)->GetY();
             int range=Eudemonvec.at(i)->GetRange();
@@ -216,6 +219,9 @@ void MainWindow::DrawEudemon(QPainter& painter){//画守护者并确定目标怪
                 Eudemonvec.at(i)->SetTargetEvil(Evilvec.at(j));
                 break;//找到目标怪物
             }
+        }
+        if(j==Evilvec.size()){
+            Eudemonvec.at(i)->SetTargetEvil(nullptr);
         }
         Eudemonvec.at(i)->Attack(painter);//攻击
     }

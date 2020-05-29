@@ -10,6 +10,7 @@ public:
     int GetX() const;       //获取横坐标
     int GetY() const;       //获取横坐标
     QString GetImg() const; //获取图片路径
+    void Changeimag(QString i);
     void draw(QPainter &,int w,int h);
 protected:
     int x,y;//坐标
