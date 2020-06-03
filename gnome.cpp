@@ -1,5 +1,5 @@
 #include"gnome.h"
-Gnome::Gnome(int xx,int yy,int s):Eudemon (xx,yy,s,":/images/tdgg.PNG"){
+Gnome::Gnome(int xx,int yy,int s):Eudemon (xx,yy,s,":/images/tdgg2.png"){
     range=0;
     power=10;
     upgradecost=20;

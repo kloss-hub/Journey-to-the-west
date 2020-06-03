@@ -1,20 +1,36 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "math.h"
-MainWindow::MainWindow(int s,QWidget *parent) :
+MainWindow::MainWindow(int s,int l,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    level=l;
     size=s;
     blocksize=size/15;
     ui->setupUi(this);
-    path.push_back(new Point(8*blocksize,0*blocksize));
-    path.push_back(new Point(8*blocksize,3*blocksize));
-    path.push_back(new Point(2*blocksize,3*blocksize));
-    path.push_back(new Point(2*blocksize,7*blocksize));
-    path.push_back(new Point(11*blocksize,7*blocksize));
-    path.push_back(new Point(11*blocksize,5*blocksize));
-    path.push_back(new Point(13*blocksize,5*blocksize));//一定要用new
+    if(l==1){//火焰山关卡
+        path.push_back(new Point(8*blocksize,0*blocksize));
+        path.push_back(new Point(8*blocksize,3*blocksize));
+        path.push_back(new Point(2*blocksize,3*blocksize));
+        path.push_back(new Point(2*blocksize,7*blocksize));
+        path.push_back(new Point(11*blocksize,7*blocksize));
+        path.push_back(new Point(11*blocksize,5*blocksize));
+        path.push_back(new Point(13*blocksize,5*blocksize));//一定要用new
+
+    }
+    else{
+        path.push_back(new Point(0*blocksize,3*blocksize));
+        path.push_back(new Point(2*blocksize,3*blocksize));
+        path.push_back(new Point(2*blocksize,7*blocksize));
+        path.push_back(new Point(4*blocksize,7*blocksize));
+        path.push_back(new Point(4*blocksize,2*blocksize));
+        path.push_back(new Point(8*blocksize,2*blocksize));
+        path.push_back(new Point(8*blocksize,6*blocksize));
+        path.push_back(new Point(11*blocksize,6*blocksize));
+        path.push_back(new Point(11*blocksize,4*blocksize));
+        path.push_back(new Point(13*blocksize,4*blocksize));
+    }
     QTimer *timer2 = new QTimer(this);
     timer2->start(200);
     connect(timer2,SIGNAL(timeout()),this,SLOT(drawagin()));//重画
@@ -35,7 +51,11 @@ void MainWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     if(life>0){
-        painter.drawPixmap(rect(), QPixmap(":/images/bg4.jpg"));
+        if(level==1)//盘丝洞
+            painter.drawPixmap(rect(), QPixmap(":/images/psd.jpg"));
+        else {//火焰山
+            painter.drawPixmap(rect(), QPixmap(":/images/hys.jpg"));
+        }
         painter.setRenderHint(QPainter::Antialiasing);    //设置抗锯齿
         DrawMap(painter);        //画出地图
         DrawEvil(painter);       //画出怪物
@@ -50,7 +70,7 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::mousePressEvent(QMouseEvent *mouse)
 {
-    int Map[10][15] =
+    int Map1[10][15] =
     {
         {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
         {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
@@ -63,6 +83,24 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
+    int Map2[10][15]={
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+        {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
+int Map[10][15];
+if(level==1)
+    memcpy(Map, Map1, sizeof(Map));
+if(level==2)
+    memcpy(Map, Map2, sizeof(Map));
+
     int x=mouse->pos().x()/blocksize;
     int y=mouse->pos().y()/blocksize;//得到鼠标坐标对应的块坐标
     if(inselect){
@@ -70,18 +108,18 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
         int by=M->GetY()/blocksize;//选择框对应的块坐标
         if(x==bx&&y==by-1&&money>=50){
             money-=50;
-            Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*3/4));
+            Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*2/3));
         }//孙悟空
         if(x==bx+1&&by==y&&money>=40){
             money-=40;
-            Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*3/4));
+            Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*2/3));
         }//猪八戒
         if(x==bx&&y==by+1&&money>=30){
             money-=30;
-            Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*3/4));
+            Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*2/3));
         }//沙和尚
         if(x==bx-1&&y==by&&money>=20){
-            Eudemonvec.append(new Gnome(bx*blocksize,by*blocksize,blocksize*3/4));
+            Eudemonvec.append(new Gnome(bx*blocksize,by*blocksize,blocksize*2/3));
         }//土地公公
 
         inselect=false;//选择完毕
@@ -118,19 +156,37 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
 
 void MainWindow::DrawMap(QPainter& painter)//画地图
 {
-    int Map[10][15] =
-    {
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-        {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
+        int Map1[10][15] =
+        {
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        };
+        int Map2[10][15]={
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
+            {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
+            {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+            {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+            {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        };
+    int Map[10][15];
+    if(level==1)
+        memcpy(Map, Map1, sizeof(Map));
+    if(level==2)
+        memcpy(Map, Map2, sizeof(Map));
+
     for (int i = 0; i < 10; i++)
         for (int j = 0; j < 15; j++)
         {
@@ -145,7 +201,7 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
                     break;
                 }
                 case 3:{
-                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/money.PNG"));
+                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/money2.png"));
                     break;
                 }
                 case 4:{
@@ -231,7 +287,7 @@ void MainWindow::DrawEudemon(QPainter& painter){//画守护者并确定目标怪
 }
 int MainWindow::hurt(Evil *E)
 {
-    if(E->GetX()==13*blocksize&&E->GetY()==5*blocksize){
+    if((level==1&&E->GetX()==13*blocksize&&E->GetY()==5*blocksize)||(level==2&&E->GetX()==13*blocksize&&E->GetY()==4*blocksize)){
         life-=E->GetHurt();//
         return 1;
     }

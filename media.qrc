@@ -28,5 +28,11 @@
         <file>images/pig1.png</file>
         <file>images/pig2.png</file>
         <file>images/bullet2.png</file>
+        <file>images/beginbg.jpg</file>
+        <file>images/button.png</file>
+        <file>images/hys.jpg</file>
+        <file>images/psd.jpg</file>
+        <file>images/money2.png</file>
+        <file>images/tdgg2.png</file>
     </qresource>
 </RCC>

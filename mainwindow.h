@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(int s,QWidget *parent = nullptr);
+    explicit MainWindow(int s,int l,QWidget *parent = nullptr);
     ~MainWindow();
 private slots:
      void InitEvil();               //产生怪物
@@ -29,6 +29,7 @@ private slots:
      void InitBullet();             //产生子弹
 private:
     Ui::MainWindow *ui;
+    int level;                      //关卡
     int size;                      //界面大小
     int blocksize;                //块大小
     int evil_init_speed=2000;    //怪物产生速度/ms
