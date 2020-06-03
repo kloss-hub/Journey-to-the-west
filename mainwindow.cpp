@@ -37,7 +37,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     if(life>0){
         painter.drawPixmap(rect(), QPixmap(":/images/bg4.jpg"));
         painter.setRenderHint(QPainter::Antialiasing);    //设置抗锯齿
-        DrawMapArr(painter);        //画出地图
+        DrawMap(painter);        //画出地图
         DrawEvil(painter);       //画出怪物
         DrawEudemon(painter);  //画出守护者
     if(inselect)
@@ -70,20 +70,19 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
         int by=M->GetY()/blocksize;//选择框对应的块坐标
         if(x==bx&&y==by-1&&money>=50){
             money-=50;
-            Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*3/4));//类型兼容
-        }
+            Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*3/4));
+        }//孙悟空
         if(x==bx+1&&by==y&&money>=40){
             money-=40;
-            Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*3/4));//类型兼容
-        }
+            Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*3/4));
+        }//猪八戒
         if(x==bx&&y==by+1&&money>=30){
             money-=30;
             Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*3/4));
-        }
+        }//沙和尚
         if(x==bx-1&&y==by&&money>=20){
-            money-=20;
-            Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*3/4));
-        }
+            Eudemonvec.append(new Gnome(bx*blocksize,by*blocksize,blocksize*3/4));
+        }//土地公公
 
         inselect=false;//选择完毕
 
@@ -117,7 +116,7 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
 }
 
 
-void MainWindow::DrawMapArr(QPainter& painter)//画地图
+void MainWindow::DrawMap(QPainter& painter)//画地图
 {
     int Map[10][15] =
     {
@@ -227,7 +226,7 @@ void MainWindow::DrawEudemon(QPainter& painter){//画守护者并确定目标怪
         if(j==Evilvec.size()){
             Eudemonvec.at(i)->SetTargetEvil(nullptr);
         }
-        Eudemonvec.at(i)->Attack(painter);//攻击
+        money+=Eudemonvec.at(i)->Attack(painter);//攻击或者生成金钱
     }
 }
 int MainWindow::hurt(Evil *E)

@@ -15,7 +15,7 @@ void Pigsy::Addbuttle(){
         BulletQ.clear();
     }
 }
-void Pigsy::Attack(QPainter &painter){
+int Pigsy::Attack(QPainter &painter){
     if(target_evil&&target_evil->GetHealth()>0){
         Changeimag(":/images/pig2.png");
         int to_evilx=(target_evil->GetX()-x)/bulletnum;
@@ -46,6 +46,7 @@ void Pigsy::Attack(QPainter &painter){
 //        }
 //     target_evil->BeHurt(power);//被打到
 //    }
+    return 0;
 }
 Pigsy::~Pigsy(){
     for(int i=0;i<BulletQ.size();i++){

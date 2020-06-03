@@ -15,7 +15,7 @@ void MonkeyKing::Addbuttle(){
         BulletQ.clear();
     }
 }
-void MonkeyKing::Attack(QPainter &painter){
+int MonkeyKing::Attack(QPainter &painter){
     if(target_evil&&target_evil->GetHealth()>0){
         int to_evilx=(target_evil->GetX()-x)/bulletnum;
         int to_evily=(target_evil->GetY()-y)/bulletnum;//到达目标怪物的距离
@@ -33,6 +33,7 @@ void MonkeyKing::Attack(QPainter &painter){
         if(BulletQ.size()==bulletnum)
              target_evil->BeHurt(power);//有十个子弹，被打到
     }
+    return 0;
 }
 MonkeyKing::~MonkeyKing(){
     for(int i=0;i<BulletQ.size();i++){
