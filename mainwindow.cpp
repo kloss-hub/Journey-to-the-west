@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "math.h"
+#include "endwindow.h"
 MainWindow::MainWindow(int s,int l,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,17 +10,17 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     size=s;
     blocksize=size/15;
     ui->setupUi(this);
-    if(l==1){//火焰山关卡
+    if(l==1){//盘丝洞关卡
         path.push_back(new Point(8*blocksize,0*blocksize));
         path.push_back(new Point(8*blocksize,3*blocksize));
-        path.push_back(new Point(2*blocksize,3*blocksize));
-        path.push_back(new Point(2*blocksize,7*blocksize));
+        path.push_back(new Point(4*blocksize,3*blocksize));
+        path.push_back(new Point(4*blocksize,7*blocksize));
         path.push_back(new Point(11*blocksize,7*blocksize));
         path.push_back(new Point(11*blocksize,5*blocksize));
         path.push_back(new Point(13*blocksize,5*blocksize));//一定要用new
 
     }
-    else{
+    else{//火焰山关卡
         path.push_back(new Point(0*blocksize,3*blocksize));
         path.push_back(new Point(2*blocksize,3*blocksize));
         path.push_back(new Point(2*blocksize,7*blocksize));
@@ -51,6 +52,11 @@ void MainWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     if(life>0){
+        if(evil_count==38&&Evilvec.empty()){
+            EndWindow *e=new EndWindow(1);
+            e->show();
+            this->close();
+        }//游戏胜利
         if(level==1)//盘丝洞
             painter.drawPixmap(rect(), QPixmap(":/images/psd.jpg"));
         else {//火焰山
@@ -64,8 +70,10 @@ void MainWindow::paintEvent(QPaintEvent *)
         M->draw(painter,blocksize);
     }
     else{
-        painter.drawPixmap(rect(), QPixmap(":/images/game_over.jpg"));
-    }
+        EndWindow *e=new EndWindow(0);
+        e->show();
+        this->close();
+    }//游戏失败
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *mouse)
@@ -75,11 +83,11 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
         {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
         {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-        {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
@@ -156,31 +164,31 @@ if(level==2)
 
 void MainWindow::DrawMap(QPainter& painter)//画地图
 {
-        int Map1[10][15] =
-        {
-            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
-            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
-            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-            {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        };
-        int Map2[10][15]={
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-            {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
-            {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
-            {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-            {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-            {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        };
+    int Map1[10][15] =
+    {
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+        {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
+    int Map2[10][15]={
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+        {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
     int Map[10][15];
     if(level==1)
         memcpy(Map, Map1, sizeof(Map));

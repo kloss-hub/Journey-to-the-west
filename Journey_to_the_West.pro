@@ -36,7 +36,8 @@ SOURCES += \
     pigsy.cpp \
     monk_sha.cpp \
     gnome.cpp \
-    begingame.cpp
+    begingame.cpp \
+    endwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,11 +51,13 @@ HEADERS += \
     pigsy.h \
     monk_sha.h \
     gnome.h \
-    begingame.h
+    begingame.h \
+    endwindow.h
 
 FORMS += \
         mainwindow.ui \
-    begingame.ui
+    begingame.ui \
+    endwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
