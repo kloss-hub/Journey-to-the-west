@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "math.h"
 #include "endwindow.h"
+#include <QMediaPlayer>
 MainWindow::MainWindow(int s,int l,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,8 +10,13 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     level=l;
     size=s;
     blocksize=size/15;
+    QMediaPlayer * player = new QMediaPlayer;
     ui->setupUi(this);
     if(l==1){//盘丝洞关卡
+        player = new QMediaPlayer(this);
+        player->setMedia(QUrl("qrc:/sounds/bgm1.mp3"));
+        player->setVolume(100);
+        player->play();
         path.push_back(new Point(8*blocksize,0*blocksize));
         path.push_back(new Point(8*blocksize,3*blocksize));
         path.push_back(new Point(4*blocksize,3*blocksize));
@@ -21,6 +27,10 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
 
     }
     else{//火焰山关卡
+        player = new QMediaPlayer(this);
+        player->setMedia(QUrl("qrc:/sounds/bgm2.mp3"));
+        player->setVolume(100);
+        player->play();
         path.push_back(new Point(0*blocksize,3*blocksize));
         path.push_back(new Point(2*blocksize,3*blocksize));
         path.push_back(new Point(2*blocksize,7*blocksize));
@@ -32,6 +42,8 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
         path.push_back(new Point(11*blocksize,4*blocksize));
         path.push_back(new Point(13*blocksize,4*blocksize));
     }
+    player->setVolume(30);
+    player->play();
     QTimer *timer2 = new QTimer(this);
     timer2->start(200);
     connect(timer2,SIGNAL(timeout()),this,SLOT(drawagin()));//重画
@@ -108,7 +120,6 @@ if(level==1)
     memcpy(Map, Map1, sizeof(Map));
 if(level==2)
     memcpy(Map, Map2, sizeof(Map));
-
     int x=mouse->pos().x()/blocksize;
     int y=mouse->pos().y()/blocksize;//得到鼠标坐标对应的块坐标
     if(inselect){
@@ -151,6 +162,7 @@ if(level==2)
             else if(mouse->button()==Qt::LeftButton&&money>=Eudemonvec.at(i)->GetUpgradeCost()){//左键表示要升级,并且钱够的情况下
                 money-=Eudemonvec.at(i)->GetUpgradeCost();
                 Eudemonvec.at(i)->Upgrade();
+                upgrade+=1;//升级
             }
             else if(mouse->button()==Qt::RightButton){//右键表示要删除
                 Eudemonvec.removeAt(i);
@@ -242,21 +254,22 @@ void MainWindow::Drawlife(QPainter & painter,int x,int y){
     else
         painter.drawPixmap(x * blocksize, y * blocksize+blocksize/2, blocksize, blocksize/2,QPixmap(":/images/100.PNG"));
 }
+
 void MainWindow::InitEvil(){
     if(evil_count<=15){
-        Evilvec.append(new Evil(10,10,":/images/yj.PNG",path,blocksize/2));
+        Evilvec.append(new Evil(10+upgrade,10,":/images/yj.PNG",path,blocksize/2));
         evil_count+=1;
     }
     else if (evil_count<=25) {
-        Evilvec.append(new Evil(20,20,":/images/sj.PNG",path,blocksize/2));
+        Evilvec.append(new Evil(20+upgrade,15,":/images/sj.PNG",path,blocksize/2));
         evil_count+=1;
     }
     else if (evil_count<=32) {
-        Evilvec.append(new Evil(30,30,":/images/xzj.PNG",path,blocksize));
+        Evilvec.append(new Evil(25+upgrade,20,":/images/xzj.PNG",path,blocksize));
         evil_count+=1;
     }
     else if (evil_count<=37) {
-        Evilvec.append(new Evil(50,50,":/images/bgj.PNG",path,blocksize));
+        Evilvec.append(new Evil(30+upgrade,25,":/images/bgj.PNG",path,blocksize));
         evil_count+=1;
     }
     else{}

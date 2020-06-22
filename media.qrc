@@ -35,5 +35,11 @@
         <file>images/money2.png</file>
         <file>images/tdgg2.png</file>
         <file>images/win.JPG</file>
+        <file>sounds/ygxy.mp3</file>
+        <file>sounds/hdl.mp3</file>
+        <file>sounds/ygxy2.mp3</file>
+        <file>sounds/bgm1.mp3</file>
+        <file>sounds/bgm2.mp3</file>
+        <file>sounds/bgm.mp3</file>
     </qresource>
 </RCC>

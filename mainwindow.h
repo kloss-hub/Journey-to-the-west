@@ -34,7 +34,7 @@ private:
     int blocksize;                //块大小
     int evil_init_speed=2000;    //怪物产生速度/ms
     bool inselect=false;        //是否在选择
-    bool needselect;
+    int upgrade=0;             //是否升级，随着升级后怪物的杀伤力会增加
     Marquee *M;
     QVector <Evil *> Evilvec;           //存放妖怪的数组
     QVector <Eudemon *> Eudemonvec;     //存放守护者的数组
@@ -46,7 +46,7 @@ private:
     int hurt(Evil *);                   //判断怪物是否伤害到唐僧
     void DrawEudemon(QPainter&);
     void DrawEvil(QPainter&);           //画出怪物
-    int money=200;                      //金币
+    int money=100;                      //金币
     int evil_count=0;                   //妖怪数量
     int life=100;                       //唐僧的剩余生命
 };

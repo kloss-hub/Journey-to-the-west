@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPainter>     //画笔
+#include <QMediaPlayer>
 namespace Ui {
 class Begingame;
 }
@@ -23,6 +24,7 @@ private slots:
 
 private:
     Ui::Begingame *ui;
+    QMediaPlayer * player;
 };
 
 #endif // BEGINGAME_H
