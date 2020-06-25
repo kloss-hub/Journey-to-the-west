@@ -4,17 +4,20 @@ Gnome::Gnome(int xx,int yy,int s):Eudemon (xx,yy,s,":/images/tdgg2.png"){
     power=10;
     upgradecost=20;
 }
-void Gnome::Addbuttle(){
+
+void Gnome::Addbuttle()
+{
     count++;
     if(count>31)
-        count=0;//重新计数
-
+        count=0;//重新计数,每计到30左右清零
 }
-int Gnome::Attack(QPainter &painter){
+
+int Gnome::Attack(QPainter &painter)
+{
     if(count>20){
         painter.drawPixmap(x+size/5, y-size/5, size/2,size/2,QPixmap(":/images/money.PNG"));//画出金钱
     }
-    if(count==30){
+    if(count>=30){
         return power;
     }
      return 0;

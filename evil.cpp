@@ -1,18 +1,23 @@
 #include "evil.h"
-Evil::Evil(int h,int r,QString i,QVector<Point *> p,int s):Object (p.at(0)->GetX(),p.at(0)->GetY(),i)
+Evil::Evil(int hl,int ht,int r,QString i,QVector<Point *> p,int s):Object (p.at(0)->GetX(),p.at(0)->GetY(),i)
 {
-    hurt=h;
+    health=hl;
+    hurt=ht;
     reward=r;
     Path=p;
     speed=s;
 }
-void Evil::BeHurt(int h){
+
+void Evil::BeHurt(int h)
+{
     health-=h;
 }
-void Evil::GetSlow(){
-//    speed=speed/2;
+
+void Evil::GetSlow()
+{
     slowdown=true;
 }
+
 void Evil::move()
 {
     int sp=speed;
@@ -44,15 +49,28 @@ void Evil::move()
         y+=sp;
     }
 }
+
 int Evil::GetHurt() const
 {
     return hurt;
 }
+
 int Evil::GetHealth() const
 {
     return health;
 }
+
 int Evil::GetReward() const
 {
     return reward;
+}
+
+void Evil::draw(QPainter &painter, int w, int h)
+{
+    Object::draw(painter,w,h);
+    painter.save();
+    painter.setPen(QPen(1));
+    painter.setBrush(QBrush(Qt::red));
+    painter.drawRect(x-20,y-10,health,5);
+    painter.restore();
 }

@@ -8,13 +8,16 @@ EndWindow::EndWindow(int s,QWidget *parent) :
     ui->setupUi(this);
     status=s;
 }
-void EndWindow::paintEvent(QPaintEvent *){
+
+void EndWindow::paintEvent(QPaintEvent *)
+{
     QPainter painter(this);
     if(status==0)
         painter.drawPixmap(rect(), QPixmap(":/images/game_over.jpg"));
     if(status==1)
         painter.drawPixmap(rect(), QPixmap(":/images/win.JPG"));
 }
+
 EndWindow::~EndWindow()
 {
     delete ui;

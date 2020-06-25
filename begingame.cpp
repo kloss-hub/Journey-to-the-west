@@ -8,16 +8,18 @@ Begingame::Begingame(QWidget *parent) :
     ui->setupUi(this);
     player = new QMediaPlayer(this);
 //    player->setMedia(QUrl::fromLocalFile(":/sounds/bgm1.mp3"));
-    player->setMedia(QUrl("qrc:/sounds/bgm.mp3"));
-    player->setVolume(100);
+    player->setMedia(QUrl("qrc:/sounds/bbgm.mp3"));
+    player->setVolume(50);
     player->play();
 
 }
+
 void Begingame::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.drawPixmap(rect(), QPixmap(":/images/beginbg.jpg"));
 }
+
 Begingame::~Begingame()
 {
     delete ui;

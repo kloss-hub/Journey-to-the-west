@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "math.h"
 #include "endwindow.h"
-#include <QMediaPlayer>
+
 MainWindow::MainWindow(int s,int l,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -10,7 +10,7 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     level=l;
     size=s;
     blocksize=size/15;
-    QMediaPlayer * player = new QMediaPlayer;
+    player = new QMediaPlayer;
     ui->setupUi(this);
     if(l==1){//盘丝洞关卡
         player = new QMediaPlayer(this);
@@ -46,7 +46,7 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     player->play();
     QTimer *timer2 = new QTimer(this);
     timer2->start(200);
-    connect(timer2,SIGNAL(timeout()),this,SLOT(drawagin()));//重画
+    connect(timer2,SIGNAL(timeout()),this,SLOT(update()));//重画
     QTimer *timer = new QTimer(this);
     timer->start(evil_init_speed);
     connect(timer,SIGNAL(timeout()),this,SLOT(InitEvil()));//创造怪物
@@ -60,7 +60,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-void MainWindow::paintEvent(QPaintEvent *)
+
+void MainWindow::paintEvent(QPaintEvent *)//绘图事件
 {
     QPainter painter(this);
     if(life>0){
@@ -68,6 +69,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             EndWindow *e=new EndWindow(1);
             e->show();
             this->close();
+            player->stop();
         }//游戏胜利
         if(level==1)//盘丝洞
             painter.drawPixmap(rect(), QPixmap(":/images/psd.jpg"));
@@ -85,10 +87,11 @@ void MainWindow::paintEvent(QPaintEvent *)
         EndWindow *e=new EndWindow(0);
         e->show();
         this->close();
+        player->stop();
     }//游戏失败
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *mouse)
+void MainWindow::mousePressEvent(QMouseEvent *mouse)//鼠标事件
 {
     int Map1[10][15] =
     {
@@ -115,11 +118,11 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
-int Map[10][15];
-if(level==1)
-    memcpy(Map, Map1, sizeof(Map));
-if(level==2)
-    memcpy(Map, Map2, sizeof(Map));
+    int Map[10][15];
+    if(level==1)
+        memcpy(Map, Map1, sizeof(Map));
+    if(level==2)
+        memcpy(Map, Map2, sizeof(Map));
     int x=mouse->pos().x()/blocksize;
     int y=mouse->pos().y()/blocksize;//得到鼠标坐标对应的块坐标
     if(inselect){
@@ -128,21 +131,25 @@ if(level==2)
         if(x==bx&&y==by-1&&money>=50){
             money-=50;
             Eudemonvec.append(new MonkeyKing(bx*blocksize,by*blocksize,blocksize*2/3));
+            difficulty+=1;//难度增加
         }//孙悟空
         if(x==bx+1&&by==y&&money>=40){
             money-=40;
             Eudemonvec.append(new Pigsy(bx*blocksize,by*blocksize,blocksize*2/3));
+            difficulty+=1;//难度增加
         }//猪八戒
         if(x==bx&&y==by+1&&money>=30){
             money-=30;
             Eudemonvec.append(new MonkSha(bx*blocksize,by*blocksize,blocksize*2/3));
+            difficulty+=1;//难度增加
         }//沙和尚
         if(x==bx-1&&y==by&&money>=20){
+            money-=20;
             Eudemonvec.append(new Gnome(bx*blocksize,by*blocksize,blocksize*2/3));
+            difficulty+=1;//难度增加
         }//土地公公
-
         inselect=false;//选择完毕
-
+        delete M;
     }//在选择界面
     else{
         bool exit=false; //判断点击的位置是否已经有守护者
@@ -162,17 +169,16 @@ if(level==2)
             else if(mouse->button()==Qt::LeftButton&&money>=Eudemonvec.at(i)->GetUpgradeCost()){//左键表示要升级,并且钱够的情况下
                 money-=Eudemonvec.at(i)->GetUpgradeCost();
                 Eudemonvec.at(i)->Upgrade();
-                upgrade+=1;//升级
+                difficulty+=1;//升级
             }
             else if(mouse->button()==Qt::RightButton){//右键表示要删除
+                Eudemon* Eud=Eudemonvec.at(i);
                 Eudemonvec.removeAt(i);
-            }
-
+                delete Eud;//释放内存
             }
         }
-
+    }
 }
-
 
 void MainWindow::DrawMap(QPainter& painter)//画地图
 {
@@ -212,7 +218,7 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
         {
             switch (Map[i][j])
             {
-                case 1:{      //地板
+                case 1:{      //进攻路径
                     painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize,QPixmap(":/images/floor.png"));
                     break;
                 }
@@ -220,11 +226,11 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
                     painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/ts.PNG"));
                     break;
                 }
-                case 3:{
+                case 3:{    //金钱图标
                     painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/money2.png"));
                     break;
                 }
-                case 4:{
+                case 4:{      //金钱数额
                     QFont font("Comic Sans MS", 22);
                     QRectF rect(j * blocksize, i * blocksize, blocksize, blocksize);
                     painter.setFont(font);
@@ -232,8 +238,7 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
                     painter.drawText(rect, Qt::AlignHCenter, QString::number(money));//字体水平居中
                     break;
                 }
-//                    QFont serifFont("Times", 10, QFont::Bold);
-                case 5:{
+                case 5:{   //生命值图标
                     Drawlife(painter,j,i);
                     break;
                 }
@@ -241,8 +246,8 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
         }
 }
 
-
-void MainWindow::Drawlife(QPainter & painter,int x,int y){
+void MainWindow::Drawlife(QPainter & painter,int x,int y)//画出唐僧生命值
+{
     if(life<20)
         painter.drawPixmap(x * blocksize, y * blocksize+blocksize/2, blocksize, blocksize/2,QPixmap(":/images/20.PNG"));
     else if(life<40)
@@ -255,39 +260,35 @@ void MainWindow::Drawlife(QPainter & painter,int x,int y){
         painter.drawPixmap(x * blocksize, y * blocksize+blocksize/2, blocksize, blocksize/2,QPixmap(":/images/100.PNG"));
 }
 
-void MainWindow::InitEvil(){
+void MainWindow::InitEvil()//产生妖怪
+{
     if(evil_count<=15){
-        Evilvec.append(new Evil(10+upgrade,10,":/images/yj.PNG",path,blocksize/2));
+        Evilvec.append(new Evil(80+difficulty*2,10+difficulty,5,":/images/yj.PNG",path,blocksize/2));
         evil_count+=1;
     }
     else if (evil_count<=25) {
-        Evilvec.append(new Evil(20+upgrade,15,":/images/sj.PNG",path,blocksize/2));
+        Evilvec.append(new Evil(90+difficulty*2,15+difficulty,10,":/images/sj.PNG",path,blocksize/2));
         evil_count+=1;
     }
     else if (evil_count<=32) {
-        Evilvec.append(new Evil(25+upgrade,20,":/images/xzj.PNG",path,blocksize));
+        Evilvec.append(new Evil(100+difficulty*2,20+difficulty,15,":/images/xzj.PNG",path,blocksize));
         evil_count+=1;
     }
     else if (evil_count<=37) {
-        Evilvec.append(new Evil(30+upgrade,25,":/images/bgj.PNG",path,blocksize));
+        Evilvec.append(new Evil(100+difficulty*2,25+difficulty,20,":/images/bgj.PNG",path,blocksize));
         evil_count+=1;
     }
     else{}
-//    update();
 }
-void MainWindow::InitBullet(){
-    for(int i=0;i<Eudemonvec.size();i++){
+
+void MainWindow::InitBullet()//添加子弹
+{
+    for(int i=0;i<Eudemonvec.size();i++)
         Eudemonvec.at(i)->Addbuttle();
-    }
-//    update();
-}//添加子弹
-
-
-
-void MainWindow::drawagin(){
-    update();
 }
-void MainWindow::DrawEudemon(QPainter& painter){//画守护者并确定目标怪物
+
+void MainWindow::DrawEudemon(QPainter& painter)//画出守护者
+{//画守护者并确定目标怪物
     for(int i=0;i<Eudemonvec.size();i++){
         Eudemonvec.at(i)->draw(painter,Eudemonvec.at(i)->GetSize(), Eudemonvec.at(i)->GetSize());
         int j=0;
@@ -306,7 +307,8 @@ void MainWindow::DrawEudemon(QPainter& painter){//画守护者并确定目标怪
         money+=Eudemonvec.at(i)->Attack(painter);//攻击或者生成金钱
     }
 }
-int MainWindow::hurt(Evil *E)
+
+int MainWindow::hurt(Evil *E)//判断怪物是否伤害到唐僧
 {
     if((level==1&&E->GetX()==13*blocksize&&E->GetY()==5*blocksize)||(level==2&&E->GetX()==13*blocksize&&E->GetY()==4*blocksize)){
         life-=E->GetHurt();//
@@ -315,25 +317,23 @@ int MainWindow::hurt(Evil *E)
     return 0;
 
 }
-void MainWindow::DrawEvil(QPainter& painter)
-{//妖精移动，同时画出妖精
+
+void MainWindow::DrawEvil(QPainter& painter)//妖精移动，同时画出妖精
+{
     for(int i=0;i<Evilvec.size();i++){
         Evilvec.at(i)->move();
         if(hurt(Evilvec.at(i))||Evilvec.at(i)->GetHealth()<=0){
             if(Evilvec.at(i)->GetHealth()<=0){
                 money+=Evilvec.at(i)->GetReward();//得到杀死妖精的奖励
             }
+            Evil *e=Evilvec.at(i);
             Evilvec.removeAt(i);          //删除伤害到唐僧或者死亡的妖精
+            delete e;//释放内存
             i--;
         }
         else
         {
             Evilvec.at(i)->draw(painter,blocksize, blocksize);
-            painter.save();
-            painter.setPen(QPen(1));
-            painter.setBrush(QBrush(Qt::red));
-            painter.drawRect(Evilvec.at(i)->GetX()-20,Evilvec.at(i)->GetY()-10,Evilvec.at(i)->GetHealth(),5);
-            painter.restore();
         }
 
     }

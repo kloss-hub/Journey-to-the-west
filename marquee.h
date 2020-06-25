@@ -1,7 +1,7 @@
 #ifndef MARQUEE_H
 #define MARQUEE_H
 #include "object.h"
-#include <QPainter>     //画笔
+#include <QPainter>
 class Marquee:public Object
 {
 public:

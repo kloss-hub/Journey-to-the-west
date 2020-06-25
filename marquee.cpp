@@ -6,7 +6,8 @@ Marquee::Marquee(int xx,int yy,QString i,QString s1,QString s2,QString s3,QStrin
     sel3=s3;
     sel4=s4;
 }
-void Marquee::draw(QPainter &painter,int blocksize)
+
+void Marquee::draw(QPainter &painter,int blocksize)//画出选择框
 {
     painter.drawPixmap(x-blocksize,y-blocksize,blocksize*3,blocksize*3,QPixmap(img));
     painter.drawPixmap(x,y-blocksize,blocksize,blocksize,QPixmap(sel1));

@@ -1,15 +1,21 @@
 #include"monk_sha.h"
 MonkSha::MonkSha(int xx,int yy,int s):Eudemon (xx,yy,s,":/images/shs.PNG"){
     range=100;
-    power=5;
+    power=3;
     upgradecost=20;
     bulletnum=6;
 }
-void MonkSha::Addbuttle(){
+
+void MonkSha::Addbuttle()//添加子弹
+{
     if(count<bulletnum)
         count++;
+    if(!target_evil)
+        count=0;//清空子弹
 }
-int MonkSha::Attack(QPainter &painter){
+
+int MonkSha::Attack(QPainter &painter)//攻击函数
+{
     if(target_evil&&target_evil->GetHealth()>0){
         int to_evilx=(target_evil->GetX()-x)/bulletnum;
         int to_evily=(target_evil->GetY()-y)/bulletnum;//到达目标怪物的距离
@@ -24,4 +30,5 @@ int MonkSha::Attack(QPainter &painter){
     }
     return 0;
 }
+
 MonkSha::~MonkSha(){}

@@ -1,21 +1,26 @@
 # include"pigsy.h"
 
-Pigsy::Pigsy(int xx,int yy,int s):Eudemon (xx,yy,s,":/images/pig1.png"){
+Pigsy::Pigsy(int xx,int yy,int s):Eudemon (xx,yy,s,":/images/pig1.png")
+{
     range=100;
     power=2;
     upgradecost=20;
     bulletnum=6;
 }
-void Pigsy::Addbuttle(){
+
+void Pigsy::Addbuttle()//添加子弹
+{
     if(target_evil&&target_evil->GetHealth()>0){
         if(BulletQ.size()<bulletnum)
-            BulletQ.append((new Bullet(0,0,":/images/bullet2.png")));
+            BulletQ.append((new Object(0,0,":/images/bullet2.png")));
     }
     else {
         BulletQ.clear();
     }
 }
-int Pigsy::Attack(QPainter &painter){
+
+int Pigsy::Attack(QPainter &painter)//攻击函数
+{
     if(target_evil&&target_evil->GetHealth()>0){
         Changeimag(":/images/pig2.png");
         int to_evilx=(target_evil->GetX()-x)/bulletnum;
@@ -48,7 +53,9 @@ int Pigsy::Attack(QPainter &painter){
 //    }
     return 0;
 }
-Pigsy::~Pigsy(){
+
+Pigsy::~Pigsy()
+{
     for(int i=0;i<BulletQ.size();i++){
         free(BulletQ.at(i));
     }

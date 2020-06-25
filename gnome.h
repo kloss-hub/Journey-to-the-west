@@ -6,7 +6,7 @@ class Gnome:public Eudemon{
 public:
     Gnome(int xx,int yy,int s);
     virtual void Addbuttle();
-    virtual int Attack(QPainter& painter); //画出子弹并攻击
+    virtual int Attack(QPainter& painter);  //画出子弹并攻击
     ~Gnome();
 private:
     int count=0;                        //计数

@@ -1,8 +1,6 @@
 #ifndef PIGSY_H
 #define PIGSY_H
 #include "eudemon.h"
-#include "bullet.h"
-
 class Pigsy:public Eudemon{
 public:
     Pigsy(int xx,int yy,int s);

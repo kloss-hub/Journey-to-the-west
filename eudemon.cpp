@@ -3,33 +3,36 @@ Eudemon::Eudemon(int xx,int yy,int s,QString i):Object (xx,yy,i)
 {
     size=s;
 }
-int Eudemon::GetRange() const
+
+int Eudemon::GetRange() const //获取射程
 {
     return range;
-}  //获取射程
-void Eudemon::SetTargetEvil(Evil* e)
+}
+
+void Eudemon::SetTargetEvil(Evil* e)//设置当前目标妖怪
 {
     target_evil=e;
-} //设置当前目标妖怪
-int Eudemon::GetSize(){
+}
+
+int Eudemon::GetSize() const//返回大小
+{
     return size;
 }
-int Eudemon::GetUpgradeCost(){
+
+int Eudemon::GetUpgradeCost() const//返回升级所需费用
+{
     return upgradecost;
 }
-void Eudemon::InitBullet(){
 
-}             //新建子弹
-void Eudemon::MoveBullet(){
-
-}             //子弹移动
-void Eudemon::Upgrade(){
+void Eudemon::Upgrade()//升级,上限为3
+{
     if(level<3){
+        upgradecost+=5;
         size+=10;
-        power+=5;
-        range+=20;
+        power+=3;
+        range+=10;
         level+=1;
         bulletnum-=1;
         BulletQ.clear();
     }
-}            //升级,上限为3
+}

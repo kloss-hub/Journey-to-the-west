@@ -47,7 +47,6 @@ HEADERS += \
     point.h \
     marquee.h \
     object.h \
-    bullet.h \
     monkey_king.h \
     pigsy.h \
     monk_sha.h \

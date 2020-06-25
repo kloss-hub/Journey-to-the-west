@@ -14,17 +14,14 @@ class Begingame : public QMainWindow
 
 public:
     explicit Begingame(QWidget *parent = nullptr);
-    void paintEvent(QPaintEvent *);     //绘图事件
     ~Begingame();
-
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
-
 private:
     Ui::Begingame *ui;
     QMediaPlayer * player;
+    void paintEvent(QPaintEvent *);     //绘图事件
 };
 
 #endif // BEGINGAME_H
