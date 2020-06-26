@@ -7,7 +7,6 @@ Begingame::Begingame(QWidget *parent) :
 {
     ui->setupUi(this);
     player = new QMediaPlayer(this);
-//    player->setMedia(QUrl::fromLocalFile(":/sounds/bgm1.mp3"));
     player->setMedia(QUrl("qrc:/sounds/bbgm.mp3"));
     player->setVolume(50);
     player->play();
@@ -28,7 +27,7 @@ Begingame::~Begingame()
 void Begingame::on_pushButton_clicked()
 {
         int size=900;
-        MainWindow* w=new MainWindow(size,2);
+        MainWindow* w=new MainWindow(size,2);//火焰山
         w->setFixedSize(size,size/15*10);
         w->setWindowTitle("                 西天取经！");//设置标题和界面大小
         w->show();
@@ -39,7 +38,7 @@ void Begingame::on_pushButton_clicked()
 void Begingame::on_pushButton_2_clicked()
 {
     int size=900;
-    MainWindow* w=new MainWindow(size,1);
+    MainWindow* w=new MainWindow(size,1);//盘丝洞
     w->setFixedSize(size,size/15*10);
     w->setWindowTitle("                 西天取经！");//设置标题和界面大小
     w->show();

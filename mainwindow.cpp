@@ -7,6 +7,7 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QMediaPlaylist *playlist=new QMediaPlaylist;
     level=l;
     size=s;
     blocksize=size/15;
@@ -37,13 +38,9 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14,0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
-
     if(l==1){//盘丝洞关卡
         memcpy(Map, Map1, sizeof(Map));
-        player = new QMediaPlayer(this);
-        player->setMedia(QUrl("qrc:/sounds/bgm1.mp3"));
-        player->setVolume(100);
-        player->play();
+        playlist->addMedia(QUrl("qrc:/sounds/bgm1.mp3"));
         path.push_back(new Point(8*blocksize,0*blocksize));
         path.push_back(new Point(8*blocksize,3*blocksize));
         path.push_back(new Point(4*blocksize,3*blocksize));
@@ -55,10 +52,7 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     }
     else{//火焰山关卡
         memcpy(Map, Map2, sizeof(Map));
-        player = new QMediaPlayer(this);
-        player->setMedia(QUrl("qrc:/sounds/bgm2.mp3"));
-        player->setVolume(100);
-        player->play();
+        playlist->addMedia(QUrl("qrc:/sounds/bgm2.mp3"));
         path.push_back(new Point(0*blocksize,3*blocksize));
         path.push_back(new Point(2*blocksize,3*blocksize));
         path.push_back(new Point(2*blocksize,7*blocksize));
@@ -70,6 +64,9 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
         path.push_back(new Point(11*blocksize,4*blocksize));
         path.push_back(new Point(13*blocksize,4*blocksize));
     }
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    player = new QMediaPlayer(this);
+    player->setPlaylist(playlist);
     player->setVolume(30);
     player->play();
     QTimer *timer2 = new QTimer(this);
@@ -81,7 +78,6 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     QTimer *timer1 = new QTimer(this);
     timer1->start(100);
     connect(timer1,SIGNAL(timeout()),this,SLOT(InitBullet()));//造子弹
-
 }
 
 MainWindow::~MainWindow()
@@ -165,7 +161,7 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)//鼠标事件
                 }
             }
             if(!exit){//需要画出选择框
-                M=new Marquee(x*blocksize, y*blocksize,":/images/marquee.PNG",":/images/swk.PNG",":/images/zbj.PNG",":/images/shs.PNG",":/images/tdgg.PNG");
+                M=new Marquee(x*blocksize, y*blocksize,":/images/marquee.PNG",":/images/swk.PNG",":/images/zbj.PNG",":/images/shs.PNG",":/images/tdgg2.png");
                 inselect=true;
             }
             else if(mouse->button()==Qt::LeftButton&&money>=Eudemonvec.at(i)->GetUpgradeCost()){//左键表示要升级,并且钱够的情况下
@@ -231,14 +227,14 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
                 }
                 case 9:{
                     QFont font("Comic Sans MS", 22);
-                    QRectF rect(j * blocksize, i * blocksize, blocksize, blocksize);
+                    QRectF rect(j * blocksize, i * blocksize, blocksize-10, blocksize-10);
                     painter.setFont(font);
                     painter.setPen(QColor(190,130,190));
                     painter.drawText(rect, Qt::AlignHCenter, QString::number(40));//猪八戒
                     break;
                 }
                 case 10:{
-                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/shs.PNG"));
+                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize-10, blocksize ,QPixmap(":/images/shs.PNG"));
                     break;
                 }
                 case 11:{
@@ -292,19 +288,19 @@ void MainWindow::InitEvil()//产生妖怪
 {
     if(!pause){
         if(evil_count<=15){
-            Evilvec.append(new Evil(80+difficulty*2,5+difficulty,5,":/images/yj.PNG",path,blocksize/2));
+            Evilvec.append(new Evil(80+difficulty,5+difficulty,5,":/images/yj.PNG",path,blocksize/2));
             evil_count+=1;
         }
         else if (evil_count<=25) {
-            Evilvec.append(new Evil(90+difficulty*2,10+difficulty,10,":/images/sj.PNG",path,blocksize/2));
+            Evilvec.append(new Evil(90+difficulty,10+difficulty,10,":/images/sj.PNG",path,blocksize/2));
             evil_count+=1;
         }
         else if (evil_count<=32) {
-            Evilvec.append(new Evil(100+difficulty*2,15+difficulty,15,":/images/xzj.PNG",path,blocksize));
+            Evilvec.append(new Evil(100+difficulty,15+difficulty,15,":/images/xzj.PNG",path,blocksize));
             evil_count+=1;
         }
         else if (evil_count<=37) {
-            Evilvec.append(new Evil(100+difficulty*2,20+difficulty,20,":/images/bgj.PNG",path,blocksize));
+            Evilvec.append(new Evil(100+difficulty,20+difficulty,20,":/images/bgj.PNG",path,blocksize));
             evil_count+=1;
         }
         else{}
@@ -353,8 +349,9 @@ int MainWindow::hurt(Evil *E)//判断怪物是否伤害到唐僧
 void MainWindow::DrawEvil(QPainter& painter)//妖精移动，同时画出妖精
 {
     for(int i=0;i<Evilvec.size();i++){
-        if(!pause)
+        if(!pause){
             Evilvec.at(i)->move();
+        }
         if(hurt(Evilvec.at(i))||Evilvec.at(i)->GetHealth()<=0){
             if(Evilvec.at(i)->GetHealth()<=0){
                 money+=Evilvec.at(i)->GetReward();//得到杀死妖精的奖励

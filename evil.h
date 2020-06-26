@@ -16,7 +16,7 @@ public:
     void GetSlow();                      //被降速
     void draw(QPainter &,int w,int h);   //画出怪物（在基类函数上做相应的修改）
 protected:
-    int slowdown=0;
+    bool slowdown=false;
     QVector<Point *> Path; //大体路径
     int health;            //妖怪的生命值
     int hurt;              //妖怪的杀伤力

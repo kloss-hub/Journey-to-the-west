@@ -14,6 +14,7 @@
 #include"monk_sha.h"
 #include"gnome.h"
 #include <QMediaPlayer>
+#include<QMediaPlaylist>
 namespace Ui {
 class MainWindow;
 }
@@ -33,11 +34,11 @@ private:
     int level;                      //关卡
     int size;                       //界面大小
     int blocksize;                  //块大小
-    int money=200;                  //金币
+    int money=150;                  //金币
     int Map[10][15];                //地图
     int evil_count=0;               //妖怪数量
     int life=100;                   //唐僧的剩余生命
-    int evil_init_speed=5000;       //怪物产生速度/ms
+    int evil_init_speed=2000;       //怪物产生速度/ms
     bool inselect=false;            //是否在选择
     int difficulty=0;               //游戏难度，随着守护者的建造和升级而增加
     Marquee *M;

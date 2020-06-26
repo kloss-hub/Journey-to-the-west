@@ -15,15 +15,14 @@ void Evil::BeHurt(int h)
 
 void Evil::GetSlow()
 {
-    slowdown=30;
+    slowdown=true;
 }
 
 void Evil::move()
 {
     int sp=speed;
-    if(slowdown>0){
+    if(slowdown){
         sp=speed/2;
-        slowdown--;
     }//减速的时间期限
     else {
         sp=speed;

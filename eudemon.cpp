@@ -27,10 +27,10 @@ int Eudemon::GetUpgradeCost() const//返回升级所需费用
 void Eudemon::Upgrade()//升级,上限为3
 {
     if(level<3){
-        upgradecost+=5;
-        size+=10;
-        power+=3;
-        range+=10;
+        upgradecost+=10;
+        size+=8;
+        power+=2;
+        range+=8;
         level+=1;
         bulletnum-=1;
         BulletQ.clear();

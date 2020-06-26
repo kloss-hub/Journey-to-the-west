@@ -15,7 +15,7 @@ void Gnome::Addbuttle()
 int Gnome::Attack(QPainter &painter,bool pause)
 {
     if(count>20){
-        painter.drawPixmap(x+size/5, y-size/5, size/2,size/2,QPixmap(":/images/money.PNG"));//画出金钱
+        painter.drawPixmap(x+size/5, y-size/5, size/2,size/2,QPixmap(":/images/money2.png"));//画出金钱
     }
     if(count>=30){
         return pause? 0 : power;

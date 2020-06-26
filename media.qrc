@@ -1,28 +1,18 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/background.jpg</file>
-        <file>images/background.PNG</file>
         <file>images/bgj.PNG</file>
         <file>images/floor.png</file>
-        <file>images/shs.PNG</file>
         <file>images/sj.PNG</file>
         <file>images/swk.PNG</file>
-        <file>images/tdgg.PNG</file>
         <file>images/ts.PNG</file>
         <file>images/xzj.PNG</file>
         <file>images/yj.PNG</file>
-        <file>images/zbj.PNG</file>
-        <file>images/bg.jpg</file>
         <file>images/game_over.jpg</file>
-        <file>images/bg2.jpg</file>
-        <file>images/bg3.jpg</file>
-        <file>images/bg4.jpg</file>
         <file>images/20.PNG</file>
         <file>images/40.PNG</file>
         <file>images/60.PNG</file>
         <file>images/80.PNG</file>
         <file>images/100.PNG</file>
-        <file>images/money.PNG</file>
         <file>images/marquee.PNG</file>
         <file>images/bullet1.PNG</file>
         <file>images/pig1.png</file>
@@ -41,5 +31,7 @@
         <file>sounds/bbgm.mp3</file>
         <file>images/continue.png</file>
         <file>images/pause.png</file>
+        <file>images/shs.PNG</file>
+        <file>images/zbj.PNG</file>
     </qresource>
 </RCC>
