@@ -29,15 +29,17 @@ private slots:
      void InitBullet();             //产生子弹
 private:
     Ui::MainWindow *ui;
+    bool pause=false;               //暂停
     int level;                      //关卡
     int size;                       //界面大小
     int blocksize;                  //块大小
-    int money=100;                  //金币
+    int money=200;                  //金币
+    int Map[10][15];                //地图
     int evil_count=0;               //妖怪数量
     int life=100;                   //唐僧的剩余生命
-    int evil_init_speed=2000;       //怪物产生速度/ms
+    int evil_init_speed=5000;       //怪物产生速度/ms
     bool inselect=false;            //是否在选择
-    int difficulty=0;                  //游戏难度，随着守护者的建造和升级而增加
+    int difficulty=0;               //游戏难度，随着守护者的建造和升级而增加
     Marquee *M;
     QMediaPlayer * player;
     QVector <Evil *> Evilvec;           //存放妖怪的数组

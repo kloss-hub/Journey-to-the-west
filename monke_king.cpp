@@ -19,7 +19,7 @@ void MonkeyKing::Addbuttle()//添加子弹
     }
 }
 
-int MonkeyKing::Attack(QPainter &painter)//攻击函数
+int MonkeyKing::Attack(QPainter &painter,bool pause)//攻击函数
 {
     if(target_evil&&target_evil->GetHealth()>0){
         int to_evilx=(target_evil->GetX()-x)/bulletnum;
@@ -29,8 +29,8 @@ int MonkeyKing::Attack(QPainter &painter)//攻击函数
             BulletQ.at(i)->SetY(y+size/2+to_evily*(i+1));
             BulletQ.at(i)->draw(painter,size/5,size/5);
         }
-        if(BulletQ.size()==bulletnum)
-             target_evil->BeHurt(power);//有十个子弹，被打到
+        if(BulletQ.size()<=bulletnum&&!pause)
+             target_evil->BeHurt(power);//被打到
     }
     return 0;
 }

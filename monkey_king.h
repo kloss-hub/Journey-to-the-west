@@ -5,7 +5,7 @@ class MonkeyKing:public Eudemon{
 public:
     MonkeyKing(int xx,int yy,int s);
     virtual void Addbuttle();                //添加子弹
-    virtual int Attack(QPainter& painter);   //画出子弹并攻击
+    virtual int Attack(QPainter& painter,bool pause);   //画出子弹并攻击
     ~MonkeyKing();
 private:
 };

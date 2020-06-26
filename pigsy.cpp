@@ -19,7 +19,7 @@ void Pigsy::Addbuttle()//添加子弹
     }
 }
 
-int Pigsy::Attack(QPainter &painter)//攻击函数
+int Pigsy::Attack(QPainter &painter,bool pause)//攻击函数
 {
     if(target_evil&&target_evil->GetHealth()>0){
         Changeimag(":/images/pig2.png");
@@ -30,7 +30,7 @@ int Pigsy::Attack(QPainter &painter)//攻击函数
             BulletQ.at(i)->SetY(y+size/2+to_evily*(i+1));
             BulletQ.at(i)->draw(painter,size/5,size/5);
         }
-        if(BulletQ.size()==bulletnum){
+        if(BulletQ.size()==bulletnum&&!pause){
             target_evil->GetSlow();//有足够多的子弹，被打到,减速
             target_evil->BeHurt(power);//同时扣血
         }
@@ -39,18 +39,6 @@ int Pigsy::Attack(QPainter &painter)//攻击函数
     else{
         Changeimag(":/images/pig1.png");
     }
-
-//    if(target_evil&&target_evil->GetHealth()>0){
-//        int to_evilx=(target_evil->GetX()-x)/10;
-//        int to_evily=(target_evil->GetY()-y)/10;//到达目标怪物的距离
-////        float rate=to_evilx?(float)to_evily/(float)to_evilx:0;//计算tan
-//        for(int i=0;i<10;i++){
-////            Bullet *B=new Bullet(x+size/2+to_evilx*(i+1),y+size/2+to_evily*(i+1),":/images/bullet1.PNG");
-////            B->draw(painter,size/5,size/5);
-////            //打到怪物
-//        }
-//     target_evil->BeHurt(power);//被打到
-//    }
     return 0;
 }
 

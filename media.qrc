@@ -39,5 +39,7 @@
         <file>sounds/bgm1.mp3</file>
         <file>sounds/bgm2.mp3</file>
         <file>sounds/bbgm.mp3</file>
+        <file>images/continue.png</file>
+        <file>images/pause.png</file>
     </qresource>
 </RCC>

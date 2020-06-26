@@ -13,7 +13,7 @@ public:
     void SetTargetEvil(Evil*);                 //设置当前目标妖怪
     void Upgrade();                            //升级
     virtual void Addbuttle()=0;                //添加子弹
-    virtual int Attack(QPainter& painter)=0;   //功能函数，攻击或者返回金钱
+    virtual int Attack(QPainter& painter,bool pause)=0;   //功能函数，攻击或者返回金钱
     virtual ~Eudemon(){}                       //析构函数也需要是虚函数
 protected:
     int level=1;                   //等级

@@ -14,7 +14,7 @@ void MonkSha::Addbuttle()//添加子弹
         count=0;//清空子弹
 }
 
-int MonkSha::Attack(QPainter &painter)//攻击函数
+int MonkSha::Attack(QPainter &painter,bool pause)//攻击函数
 {
     if(target_evil&&target_evil->GetHealth()>0){
         int to_evilx=(target_evil->GetX()-x)/bulletnum;
@@ -25,7 +25,7 @@ int MonkSha::Attack(QPainter &painter)//攻击函数
             painter.drawEllipse(QPoint(x+20,y+30),to_evilx*(i+1),to_evily*(i+1));
         }
         painter.restore();
-        if(count==bulletnum)
+        if(count>=bulletnum&&!pause)
              target_evil->BeHurt(power);//有被打到
     }
     return 0;

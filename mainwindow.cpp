@@ -12,7 +12,34 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
     blocksize=size/15;
     player = new QMediaPlayer;
     ui->setupUi(this);
+    int Map1[10][15] =
+    {
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 6, 7, 8, 9},
+        {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0,10,11,12,13},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14,0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
+    int Map2[10][15]={
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 8, 9},
+        {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0,10,11,12,13},
+        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+        {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+        {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+        {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14,0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    };
+
     if(l==1){//盘丝洞关卡
+        memcpy(Map, Map1, sizeof(Map));
         player = new QMediaPlayer(this);
         player->setMedia(QUrl("qrc:/sounds/bgm1.mp3"));
         player->setVolume(100);
@@ -27,6 +54,7 @@ MainWindow::MainWindow(int s,int l,QWidget *parent) :
 
     }
     else{//火焰山关卡
+        memcpy(Map, Map2, sizeof(Map));
         player = new QMediaPlayer(this);
         player->setMedia(QUrl("qrc:/sounds/bgm2.mp3"));
         player->setVolume(100);
@@ -93,39 +121,13 @@ void MainWindow::paintEvent(QPaintEvent *)//绘图事件
 
 void MainWindow::mousePressEvent(QMouseEvent *mouse)//鼠标事件
 {
-    int Map1[10][15] =
-    {
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-        {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
-    int Map2[10][15]={
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-        {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
-        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
-        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-        {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
-    int Map[10][15];
-    if(level==1)
-        memcpy(Map, Map1, sizeof(Map));
-    if(level==2)
-        memcpy(Map, Map2, sizeof(Map));
+
     int x=mouse->pos().x()/blocksize;
     int y=mouse->pos().y()/blocksize;//得到鼠标坐标对应的块坐标
-    if(inselect){
+    if(Map[y][x]==14){
+        pause=!pause;//暂停或继续
+    }
+    else if(inselect){
         int bx=M->GetX()/blocksize;
         int by=M->GetY()/blocksize;//选择框对应的块坐标
         if(x==bx&&y==by-1&&money>=50){
@@ -182,37 +184,6 @@ void MainWindow::mousePressEvent(QMouseEvent *mouse)//鼠标事件
 
 void MainWindow::DrawMap(QPainter& painter)//画地图
 {
-    int Map1[10][15] =
-    {
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 3, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0},
-        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-        {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
-    int Map2[10][15]={
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-        {1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0},
-        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0},
-        {0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-        {0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-        {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    };
-    int Map[10][15];
-    if(level==1)
-        memcpy(Map, Map1, sizeof(Map));
-    if(level==2)
-        memcpy(Map, Map2, sizeof(Map));
-
     for (int i = 0; i < 10; i++)
         for (int j = 0; j < 15; j++)
         {
@@ -242,6 +213,63 @@ void MainWindow::DrawMap(QPainter& painter)//画地图
                     Drawlife(painter,j,i);
                     break;
                 }
+                case 6:{
+                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize-10, blocksize-10 ,QPixmap(":/images/swk.PNG"));
+                    break;
+                }
+                case 7:{
+                    QFont font("Comic Sans MS", 22);
+                    QRectF rect(j * blocksize, i * blocksize, blocksize, blocksize);
+                    painter.setFont(font);
+                    painter.setPen(QColor(190,130,190));
+                    painter.drawText(rect, Qt::AlignHCenter, QString::number(50));//孙悟空
+                    break;
+                }
+                case 8:{
+                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/zbj.PNG"));
+                    break;
+                }
+                case 9:{
+                    QFont font("Comic Sans MS", 22);
+                    QRectF rect(j * blocksize, i * blocksize, blocksize, blocksize);
+                    painter.setFont(font);
+                    painter.setPen(QColor(190,130,190));
+                    painter.drawText(rect, Qt::AlignHCenter, QString::number(40));//猪八戒
+                    break;
+                }
+                case 10:{
+                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/shs.PNG"));
+                    break;
+                }
+                case 11:{
+                    QFont font("Comic Sans MS", 22);
+                    QRectF rect(j * blocksize, i * blocksize, blocksize, blocksize);
+                    painter.setFont(font);
+                    painter.setPen(QColor(190,130,190));
+                    painter.drawText(rect, Qt::AlignHCenter, QString::number(30));//沙和尚
+                    break;
+                }
+                case 12:{
+                    painter.drawPixmap(j * blocksize, i * blocksize, blocksize-5, blocksize-5 ,QPixmap(":/images/tdgg2.png"));
+                    break;
+                }
+                case 13:{
+                    QFont font("Comic Sans MS", 22);
+                    QRectF rect(j * blocksize, i * blocksize, blocksize, blocksize);
+                    painter.setFont(font);
+                    painter.setPen(QColor(190,130,190));
+                    painter.drawText(rect, Qt::AlignHCenter, QString::number(20));//土地公公
+                    break;
+                }
+                case 14:{
+                    if(pause){
+                        painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/pause.png"));
+                    }
+                    else {
+                        painter.drawPixmap(j * blocksize, i * blocksize, blocksize, blocksize ,QPixmap(":/images/continue.png"));
+                    }
+                    break;
+                }
             }
         }
 }
@@ -262,29 +290,33 @@ void MainWindow::Drawlife(QPainter & painter,int x,int y)//画出唐僧生命值
 
 void MainWindow::InitEvil()//产生妖怪
 {
-    if(evil_count<=15){
-        Evilvec.append(new Evil(80+difficulty*2,10+difficulty,5,":/images/yj.PNG",path,blocksize/2));
-        evil_count+=1;
+    if(!pause){
+        if(evil_count<=15){
+            Evilvec.append(new Evil(80+difficulty*2,5+difficulty,5,":/images/yj.PNG",path,blocksize/2));
+            evil_count+=1;
+        }
+        else if (evil_count<=25) {
+            Evilvec.append(new Evil(90+difficulty*2,10+difficulty,10,":/images/sj.PNG",path,blocksize/2));
+            evil_count+=1;
+        }
+        else if (evil_count<=32) {
+            Evilvec.append(new Evil(100+difficulty*2,15+difficulty,15,":/images/xzj.PNG",path,blocksize));
+            evil_count+=1;
+        }
+        else if (evil_count<=37) {
+            Evilvec.append(new Evil(100+difficulty*2,20+difficulty,20,":/images/bgj.PNG",path,blocksize));
+            evil_count+=1;
+        }
+        else{}
     }
-    else if (evil_count<=25) {
-        Evilvec.append(new Evil(90+difficulty*2,15+difficulty,10,":/images/sj.PNG",path,blocksize/2));
-        evil_count+=1;
-    }
-    else if (evil_count<=32) {
-        Evilvec.append(new Evil(100+difficulty*2,20+difficulty,15,":/images/xzj.PNG",path,blocksize));
-        evil_count+=1;
-    }
-    else if (evil_count<=37) {
-        Evilvec.append(new Evil(100+difficulty*2,25+difficulty,20,":/images/bgj.PNG",path,blocksize));
-        evil_count+=1;
-    }
-    else{}
 }
 
 void MainWindow::InitBullet()//添加子弹
 {
-    for(int i=0;i<Eudemonvec.size();i++)
-        Eudemonvec.at(i)->Addbuttle();
+    if(!pause){
+        for(int i=0;i<Eudemonvec.size();i++)
+            Eudemonvec.at(i)->Addbuttle();
+    }
 }
 
 void MainWindow::DrawEudemon(QPainter& painter)//画出守护者
@@ -304,7 +336,7 @@ void MainWindow::DrawEudemon(QPainter& painter)//画出守护者
         if(j==Evilvec.size()){
             Eudemonvec.at(i)->SetTargetEvil(nullptr);
         }
-        money+=Eudemonvec.at(i)->Attack(painter);//攻击或者生成金钱
+        money+=Eudemonvec.at(i)->Attack(painter,pause);//攻击或者生成金钱
     }
 }
 
@@ -321,7 +353,8 @@ int MainWindow::hurt(Evil *E)//判断怪物是否伤害到唐僧
 void MainWindow::DrawEvil(QPainter& painter)//妖精移动，同时画出妖精
 {
     for(int i=0;i<Evilvec.size();i++){
-        Evilvec.at(i)->move();
+        if(!pause)
+            Evilvec.at(i)->move();
         if(hurt(Evilvec.at(i))||Evilvec.at(i)->GetHealth()<=0){
             if(Evilvec.at(i)->GetHealth()<=0){
                 money+=Evilvec.at(i)->GetReward();//得到杀死妖精的奖励

@@ -11,7 +11,7 @@ void Marquee::draw(QPainter &painter,int blocksize)//画出选择框
 {
     painter.drawPixmap(x-blocksize,y-blocksize,blocksize*3,blocksize*3,QPixmap(img));
     painter.drawPixmap(x,y-blocksize,blocksize,blocksize,QPixmap(sel1));
-    painter.drawPixmap(x+blocksize,y,blocksize,blocksize,QPixmap(sel2));
+    painter.drawPixmap(x+blocksize,y-10,blocksize,blocksize,QPixmap(sel2));
     painter.drawPixmap(x,y+blocksize-10,blocksize,blocksize,QPixmap(sel3));
     painter.drawPixmap(x-blocksize,y,blocksize,blocksize,QPixmap(sel4));//画出四个选项
 }
